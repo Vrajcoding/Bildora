@@ -57,25 +57,10 @@ export default function AboutExpertise({ onSelectService }) {
             </span>
           </div>
 
-          {/* Heading: Mobile puts Into on row 2 */}
-          <div className="sm:hidden w-full">
-            <WordReveal
-              as="h2"
-              text={"Experience That Turns Plans\nInto Progress."}
-              staggerDelay={0.06}
-              initialDelay={0.1}
-              className="text-[36px] font-normal tracking-tight text-[#1F2D3D] leading-[1.14] text-balance max-w-3xl mx-auto text-center"
-            />
-          </div>
-          <div className="hidden sm:block w-full">
-            <WordReveal
-              as="h2"
-              text={ourExpertiseData.heading}
-              staggerDelay={0.06}
-              initialDelay={0.1}
-              className="sm:text-[40px] md:text-[48px] font-normal tracking-tight text-[#1F2D3D] leading-[1.12] text-balance max-w-3xl mx-auto text-center"
-            />
-          </div>
+          {/* Heading: Centered on the page */}
+          <h2 className="text-[36px] sm:text-[40px] md:text-[48px] font-normal tracking-tight text-[#1F2D3D] leading-[1.12] text-balance max-w-3xl mx-auto text-center">
+            {ourExpertiseData.heading}
+          </h2>
 
           {/* Subtitle Paragraph (16px) - Always visible and centered */}
           <p className="text-[#262525] text-[16px] max-w-2xl mx-auto font-normal leading-relaxed text-balance mt-4 sm:mt-5 text-center">

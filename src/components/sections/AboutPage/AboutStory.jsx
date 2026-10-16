@@ -63,7 +63,7 @@ export default function AboutStory({ onDiscoverClick }) {
         </div>
 
         {/* Right Column: Narrative Content */}
-        <div className="lg:col-span-6 flex flex-col items-start">
+        <div className="lg:col-span-6 flex flex-col items-start text-left w-full">
           {/* Badge: Our Story (14px) */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}

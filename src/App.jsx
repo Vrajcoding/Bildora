@@ -243,8 +243,8 @@ export default function App() {
         onClose={() => setIsModalOpen(false)}
       />
 
-      {/* Agentation Toolbar for AI Web Page Annotations */}
-      <Agentation endpoint="http://localhost:4747" />
+      {/* Agentation Toolbar for AI Web Page Annotations (Dev only) */}
+      {import.meta.env.DEV && <Agentation endpoint="http://localhost:4747" />}
     </div>
   )
 }

@@ -30,6 +30,7 @@ export default function TestimonialsSection() {
   const titleBlockRef = useRef(null)
   const titleContentRef = useRef(null)
   const wrapperRef = useRef(null)
+  const firstRowRef = useRef(null)
 
   // Get individual testimonial data items
   const daniel = testimonialsData.find((t) => t.id === 1)
@@ -56,48 +57,64 @@ export default function TestimonialsSection() {
           pinSpacing: false,
         })
 
-        // 2. Smoothly and slightly push title into the background according to the boxes scrolling in
+        // Ensure title starts fully visible, crisp, and unblurred
         if (titleContentRef.current) {
+          gsap.set(titleContentRef.current, {
+            scale: 1,
+            opacity: 1,
+            filter: 'blur(0px)',
+            y: 0,
+          })
+
+          // 2. Continuous smooth scrub: text smoothly goes back -> back -> back in 3D depth as user scrolls
           gsap.to(titleContentRef.current, {
-            scale: 0.88,
-            opacity: 0.45,
-            filter: 'blur(5px)',
-            ease: 'power1.out',
+            scale: 0.76,
+            opacity: 0.2,
+            filter: 'blur(8px)',
+            y: -50,
+            ease: 'none',
             scrollTrigger: {
-              trigger: wrapperRef.current,
-              start: 'top 75%',
-              end: 'top 25%',
-              scrub: 1,
+              trigger: containerRef.current,
+              start: 'top top',
+              end: 'bottom 50%',
+              scrub: 1.2,
             },
           })
 
-          // Smoothly fade out when the last boxes exit the section
+          // 3. Fade completely out as the wrapper finishes scrolling
           gsap.to(titleContentRef.current, {
             opacity: 0,
             ease: 'power1.in',
             scrollTrigger: {
               trigger: wrapperRef.current,
-              start: 'bottom 70%',
-              end: 'bottom 30%',
+              start: 'bottom 60%',
+              end: 'bottom 20%',
               scrub: 1,
             },
           })
         }
 
-        // 3. Smooth card entrance animations from bottom (y: 90 -> 0)
-        const rows = wrapperRef.current.querySelectorAll('.testimonial-row')
-        rows.forEach((row) => {
-          gsap.from(row, {
-            y: 90,
-            opacity: 0,
-            duration: 0.9,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: row,
-              start: 'top 85%',
-              toggleActions: 'play none none reverse',
+        // 4. Testimonial boxes smoothly rise up at the exact same time as you scroll
+        const allRows = wrapperRef.current.querySelectorAll('.testimonial-row')
+        allRows.forEach((row) => {
+          gsap.fromTo(
+            row,
+            {
+              y: 130,
+              opacity: 0,
             },
-          })
+            {
+              y: 0,
+              opacity: 1,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: row,
+                start: 'top 92%',
+                end: 'top 52%',
+                scrub: 1.2,
+              },
+            }
+          )
         })
       })
 
@@ -160,13 +177,16 @@ export default function TestimonialsSection() {
         <div
           id="testimonial-wrapper"
           ref={wrapperRef}
-          className="relative z-10 pt-[55vh] pb-52 px-8 lg:px-12 max-w-[1390px] mx-auto pointer-events-auto"
+          className="relative z-10 pt-[70vh] pb-52 px-8 lg:px-12 max-w-[1390px] mx-auto pointer-events-auto"
         >
           {/* Desktop Layout: Exact 5-Row Bildora Flow */}
           <div className="flex flex-col gap-[73px] w-full">
 
             {/* Row 1: "1 & 2" (Daniel Carter on left with pt-[100px], Sophia Bennett on right with pt-0, gap 240px) */}
-            <div className="testimonial-row flex flex-row justify-center items-start gap-[160px] xl:gap-[240px] w-full">
+            <div
+              ref={firstRowRef}
+              className="testimonial-row flex flex-row justify-center items-start gap-[160px] xl:gap-[240px] w-full"
+            >
               <div className="pt-[100px]">
                 <TestimonialCard
                   quote={daniel.quote}
